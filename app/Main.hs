@@ -10,6 +10,7 @@ import Data.List.Split -- Might switch out for my own implementation
 -- Used to convert Strings to ByteStrings and vice versa
 import Data.ByteString.UTF8 (fromString, toString)
 import Data.ByteString.Char8 as DBC (putStrLn)
+import Data.ByteString.Lazy (fromStrict)
 
 data Firebase = Firebase {
       apiKey :: String,
@@ -76,6 +77,21 @@ createRequest prot h m p = case prot of
                                   $ setRequestPath p
                                   $ defaultRequest
 
+createPostRequest :: ByteString -> ByteString -> ByteString -> ByteString -> ByteString -> Request
+createPostRequest prot h m p b = case prot of
+                            "https" -> setRequestMethod m
+                                      $ setRequestHost h
+                                      $ setRequestPath p
+                                      $ setRequestPort 443
+                                      $ setRequestSecure True
+                                      $ setRequestBodyLBS (fromStrict b)
+                                      $ defaultRequest
+                            "http" -> setRequestMethod m
+                                      $ setRequestHost h
+                                      $ setRequestPath p
+                                      $ setRequestBodyLBS (fromStrict b)
+                                      $ defaultRequest
+
 -- Let's a user run the GET function with a normal String
 simpleGetWrapper :: String -> IO ()
 simpleGetWrapper s = simpleGet (fromString s)
@@ -100,49 +116,74 @@ checkMethod s = case toString s of
 
 main :: IO ()
 main = do
-    Prelude.putStrLn "Please select a method (GET or POST):"
-    methodInput <- BS.getLine
-    let loop methodInput = do
-        if not (checkMethod methodInput) then do
-            Prelude.putStrLn "Invalid method. Please select again:"
-            newMethod <- BS.getLine
-            loop newMethod
-        else do
-            Prelude.putStrLn "Please enter a command:"
-            commandInput <- Prelude.getLine
-            case words commandInput of
-                ("default" : _) -> do
-                    Prelude.putStrLn "Getting default response..."
-                    response <- httpLbs testRequest
-                    print (getResponseBody response)
-                    loop methodInput
-                ("custom" : _) -> do
-                    Prelude.putStrLn "Please enter a valid URI (Ex. https://google.com/path):"
-                    uri <- BS.getLine
-                    -- Splits the URI into the host and path
-                    let parsedProt = splitOn ":" (toString uri)
-                        protocol = fromString (Prelude.head parsedProt)
-                        parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
-                        host = fromString (Prelude.head parsedUri)
-                        path = fromString ("/" ++ Prelude.last parsedUri)
-                    -- Prints the current host, method, and path
-                    Prelude.putStrLn "Attempting to make request with..." -- Should fix up this printing
-                    Prelude.putStrLn "Host: "
-                    DBC.putStrLn host
-                    Prelude.putStrLn "Method: "
-                    DBC.putStrLn methodInput
-                    Prelude.putStrLn "Path: "
-                    DBC.putStrLn path
-                    Prelude.putStrLn "Protocol: "
-                    DBC.putStrLn protocol
-                    -- Creates the response and then prints it
-                    response <- httpLbs (createRequest protocol host methodInput path)
-                    print (getResponseBody response)
-                    loop methodInput
-                ("new" : _) -> do
-                    Prelude.putStrLn "Please select a new method:"
-                    newMethod <- BS.getLine
-                    loop newMethod
-                ("quit" : _) -> return ()
-                _ -> Prelude.putStrLn "Parse error!" >> loop methodInput
-    loop methodInput
+    Prelude.putStrLn "Please enter a valid URI (Ex. https://google.com/path):"
+    uri <- BS.getLine
+    let loop uri = do
+        Prelude.putStrLn "Please enter a command:"
+        commandInput <- Prelude.getLine
+        case words commandInput of
+            ("default" : _) -> do
+                Prelude.putStrLn "Getting default response..."
+                response <- httpLbs testRequest
+                print (getResponseBody response)
+                loop uri
+            ("get" : _) -> do
+                -- Splits the URI into the protocol, host and path
+                let parsedProt = splitOn ":" (toString uri)
+                    protocol = fromString (Prelude.head parsedProt)
+                    parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
+                    host = fromString (Prelude.head parsedUri)
+                    path = fromString ("/" ++ Prelude.last parsedUri)
+                    -- Sets the method to "GET"
+                    methodInput = fromString ("GET")
+                -- Prints the current host, method, and path
+                Prelude.putStrLn "Attempting to make request with..." -- Should fix up this printing
+                Prelude.putStrLn "Host: "
+                DBC.putStrLn host
+                Prelude.putStrLn "Method: "
+                DBC.putStrLn methodInput
+                Prelude.putStrLn "Path: "
+                DBC.putStrLn path
+                Prelude.putStrLn "Protocol: "
+                DBC.putStrLn protocol
+                -- Creates the response and then prints it
+                response <- httpLbs (createRequest protocol host methodInput path)
+                print (getResponseBody response)
+                loop uri
+            ("post" : _) -> do
+                Prelude.putStrLn "Please enter the body of the request:"
+                body <- BS.getLine
+                let parsedProt = splitOn ":" (toString uri)
+                    protocol = fromString (Prelude.head parsedProt)
+                    parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
+                    host = fromString (Prelude.head parsedUri)
+                    path = fromString ("/" ++ Prelude.last parsedUri)
+                    -- Sets the method to "GET"
+                    methodInput = fromString ("POST")
+                -- Prints the current host, method, path, and body
+                Prelude.putStrLn "Attempting to make request with..." -- Should fix up this printing
+                Prelude.putStrLn "Host: "
+                DBC.putStrLn host
+                Prelude.putStrLn "Method: "
+                DBC.putStrLn methodInput
+                Prelude.putStrLn "Path: "
+                DBC.putStrLn path
+                Prelude.putStrLn "Protocol: "
+                DBC.putStrLn protocol
+                Prelude.putStrLn "Body: "
+                DBC.putStrLn body
+                -- Creates the response and then prints it
+                response <- httpLbs (createPostRequest protocol host methodInput path body)
+                print (getResponseBody response)
+                loop uri
+            ("new" : _) -> do
+                Prelude.putStrLn "Please enter a new URI:"
+                newUri <- BS.getLine
+                loop newUri
+            ("show" : _) -> do
+                Prelude.putStrLn "Current URI:"
+                DBC.putStrLn uri
+                loop uri
+            ("quit" : _) -> return ()
+            _ -> Prelude.putStrLn "Parse error!" >> loop uri
+    loop uri
