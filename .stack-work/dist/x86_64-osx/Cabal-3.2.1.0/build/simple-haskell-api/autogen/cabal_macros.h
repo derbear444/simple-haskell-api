@@ -77,6 +77,17 @@
   (major1) == 1 && (major2) == 0 && (minor) <= 2)
 #endif /* MIN_VERSION_utf8_string */
 
+/* tool cpphs-1.20.9 */
+#ifndef TOOL_VERSION_cpphs
+#define TOOL_VERSION_cpphs "1.20.9"
+#endif /* TOOL_VERSION_cpphs */
+#ifndef MIN_TOOL_VERSION_cpphs
+#define MIN_TOOL_VERSION_cpphs(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  20 || \
+  (major1) == 1 && (major2) == 20 && (minor) <= 9)
+#endif /* MIN_TOOL_VERSION_cpphs */
+
 /* tool gcc-13.0.0 */
 #ifndef TOOL_VERSION_gcc
 #define TOOL_VERSION_gcc "13.0.0"
