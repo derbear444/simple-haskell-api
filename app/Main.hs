@@ -59,10 +59,10 @@ splitString c [] [] = []
 splitString c (s:ss) acc | c == s = splitString c ss acc
                          | otherwise = ([s] : acc) ++ splitString c ss acc
 
-flatten :: [[a]] -> [a]
+flatten :: [[Char]] -> [Char]
 flatten [] = []
 flatten [[a]] = [a]
-flatten (x:xs) = x ++ flatten(xs)
+flatten (x:xs) = '/' : x ++ flatten(xs)
 
 createRequest :: ByteString -> ByteString -> ByteString -> ByteString -> Request
 createRequest prot h m p = case prot of
@@ -133,7 +133,7 @@ main = do
                     protocol = fromString (Prelude.head parsedProt)
                     parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
                     host = fromString (Prelude.head parsedUri)
-                    path = fromString ("/" ++ Prelude.last parsedUri)
+                    path = fromString (flatten (Prelude.tail parsedUri))
                     -- Sets the method to "GET"
                     methodInput = fromString ("GET")
                 -- Prints the current host, method, and path
@@ -151,13 +151,13 @@ main = do
                 print (getResponseBody response)
                 loop uri
             ("post" : _) -> do
-                Prelude.putStrLn "Please enter the body of the request:"
+                Prelude.putStrLn "Please enter the body of the request in JSON:"
                 body <- BS.getLine
                 let parsedProt = splitOn ":" (toString uri)
                     protocol = fromString (Prelude.head parsedProt)
                     parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
                     host = fromString (Prelude.head parsedUri)
-                    path = fromString ("/" ++ Prelude.last parsedUri)
+                    path = fromString (flatten (Prelude.tail parsedUri))
                     -- Sets the method to "GET"
                     methodInput = fromString ("POST")
                 -- Prints the current host, method, path, and body
