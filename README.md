@@ -13,3 +13,8 @@ Currently, the program only supports GET and POST requests, but could be extende
 1. Clone the repository (`git clone https://github.com/wilsondc5/simple-haskell-api.git`)
 2. Navigate to the directory (`cd simple-haskell-api`)
 3. Run `cabal build` and then `cabal run`
+
+## Uses
+
+- Cabal v. 3.6.2.0
+- GHC v. 8.10.7
