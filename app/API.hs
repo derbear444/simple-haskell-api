@@ -15,30 +15,6 @@ import Data.ByteString.UTF8 (fromString, toString)
 import Data.ByteString.Char8 as DBC (putStrLn)
 import Data.ByteString.Lazy (fromStrict)
 
-data Firebase = Firebase {
-      apiKey :: String,
-      authDomain :: String,
-      databaseURL :: String,
-      projectId :: String,
-      storageBucket :: String,
-      messagingSenderId :: String,
-      appId :: String,
-      measurementId :: String
-    }
-    deriving (Generic, ToJSON, FromJSON, Show)
-
-firebaseInit :: Firebase
-firebaseInit = Firebase {
-      apiKey = "AIzaSyCkNMj_Jbdmi8cLsRY1SOp-BGcm8sKx2po",
-      authDomain = "appallocate-cad69.firebaseapp.com",
-      databaseURL = "https://appallocate-cad69-default-rtdb.firebaseio.com",
-      projectId = "appallocate-cad69",
-      storageBucket = "appallocate-cad69.appspot.com",
-      messagingSenderId = "969023605323",
-      appId = "1:969023605323:web:33552bcccf1c762cdd9bce",
-      measurementId = "G-0822M01Z2B"
-    }
-
 ------
 
 testRequest = setRequestMethod "GET"
@@ -116,85 +92,87 @@ checkUri :: ByteString -> IO ()
 checkUri s = let uri = toString s
                  parsedProt = splitOn ":" uri
                  protocol = fromString (Prelude.head parsedProt)
-                --  parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
-                --  host = fromString (Prelude.head parsedUri)
-                --  path = fromString (flatten (Prelude.tail parsedUri))
              in 
-                 if (protocol == "https" || protocol == "http") then return () else error "No!"
+                 if (protocol == "https" || protocol == "http" || protocol == "quit") then return () else error "No!"
 
 main :: IO ()
 main = do
     Prelude.putStrLn "Please enter a valid URI (Ex. https://google.com/path):"
     uri <- BS.getLine
-    check <- catch (checkUri uri) handler
-    let loop uri = do
-                   Prelude.putStrLn "Please enter a command:"
-                   commandInput <- Prelude.getLine
-                   case words commandInput of
-                        ("default" : _) -> do
-                            Prelude.putStrLn "Getting default response..."
-                            response <- httpLbs testRequest
-                            print (getResponseBody response)
-                            loop uri
-                        ("get" : _) -> do
-                            -- Splits the URI into the protocol, host and path
-                            let parsedProt = splitOn ":" (toString uri)
-                                protocol = fromString (Prelude.head parsedProt)
-                                parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
-                                host = fromString (Prelude.head parsedUri)
-                                path = fromString (flatten (Prelude.tail parsedUri))
-                                -- Sets the method to "GET"
-                                methodInput = fromString ("GET")
-                            -- Prints the current host, method, and path
-                            Prelude.putStrLn "Attempting to make request with..." -- Should fix up this printing
-                            Prelude.putStrLn "Host: "
-                            DBC.putStrLn host
-                            Prelude.putStrLn "Method: "
-                            DBC.putStrLn methodInput
-                            Prelude.putStrLn "Path: "
-                            DBC.putStrLn path
-                            Prelude.putStrLn "Protocol: "
-                            DBC.putStrLn protocol
-                            -- Creates the response and then prints it
-                            response <- httpLbs (createRequest protocol host methodInput path)
-                            print (getResponseBody response)
-                            loop uri
-                        ("post" : _) -> do
-                            Prelude.putStrLn "Please enter the body of the request in JSON:"
-                            body <- BS.getLine
-                            let parsedProt = splitOn ":" (toString uri)
-                                protocol = fromString (Prelude.head parsedProt)
-                                parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
-                                host = fromString (Prelude.head parsedUri)
-                                path = fromString (flatten (Prelude.tail parsedUri))
-                                -- Sets the method to "GET"
-                                methodInput = fromString ("POST")
-                            -- Prints the current host, method, path, and body
-                            Prelude.putStrLn "Attempting to make request with..." -- Should fix up this printing
-                            Prelude.putStrLn "Host: "
-                            DBC.putStrLn host
-                            Prelude.putStrLn "Method: "
-                            DBC.putStrLn methodInput
-                            Prelude.putStrLn "Path: "
-                            DBC.putStrLn path
-                            Prelude.putStrLn "Protocol: "
-                            DBC.putStrLn protocol
-                            Prelude.putStrLn "Body: "
-                            DBC.putStrLn body
-                            -- Creates the response and then prints it
-                            response <- httpLbs (createPostRequest protocol host methodInput path body)
-                            print (getResponseBody response)
-                            loop uri
-                        ("new" : _) -> do
-                            Prelude.putStrLn "Please enter a new URI:"
-                            newUri <- BS.getLine
-                            loop newUri
-                        ("show" : _) -> do
-                            Prelude.putStrLn "Current URI:"
-                            DBC.putStrLn uri
-                            loop uri
-                        ("quit" : _) -> return ()
-                        _ -> Prelude.putStrLn "Parse error!" >> loop uri
-    loop uri
+    -- Checks if the uri is quit and immediately stops
+    if (toString uri) == "quit" then return ()
+    else do
+        check <- catch (checkUri uri) handler
+        let loop uri = do
+                    Prelude.putStrLn "Please enter a command:"
+                    commandInput <- Prelude.getLine
+                    case words commandInput of
+                            ("default" : _) -> do
+                                Prelude.putStrLn "Getting default response..."
+                                response <- httpLbs testRequest
+                                print (getResponseBody response)
+                                loop uri
+                            ("get" : _) -> do
+                                -- Splits the URI into the protocol, host and path
+                                let parsedProt = splitOn ":" (toString uri)
+                                    protocol = fromString (Prelude.head parsedProt)
+                                    parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
+                                    host = fromString (Prelude.head parsedUri)
+                                    path = fromString (flatten (Prelude.tail parsedUri))
+                                    -- Sets the method to "GET"
+                                    methodInput = fromString ("GET")
+                                -- Prints the current host, method, and path
+                                Prelude.putStrLn "Attempting to make request with..." -- Should fix up this printing
+                                Prelude.putStrLn "Host: "
+                                DBC.putStrLn host
+                                Prelude.putStrLn "Method: "
+                                DBC.putStrLn methodInput
+                                Prelude.putStrLn "Path: "
+                                DBC.putStrLn path
+                                Prelude.putStrLn "Protocol: "
+                                DBC.putStrLn protocol
+                                -- Creates the response and then prints it
+                                response <- httpLbs (createRequest protocol host methodInput path)
+                                Prelude.putStrLn "--------------------------"
+                                print (getResponseBody response)
+                                loop uri
+                            ("post" : _) -> do
+                                Prelude.putStrLn "Please enter the body of the request in JSON:"
+                                body <- BS.getLine
+                                let parsedProt = splitOn ":" (toString uri)
+                                    protocol = fromString (Prelude.head parsedProt)
+                                    parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
+                                    host = fromString (Prelude.head parsedUri)
+                                    path = fromString (flatten (Prelude.tail parsedUri))
+                                    -- Sets the method to "GET"
+                                    methodInput = fromString ("POST")
+                                -- Prints the current host, method, path, and body
+                                Prelude.putStrLn "Attempting to make request with..." -- Should fix up this printing
+                                Prelude.putStrLn "Host: "
+                                DBC.putStrLn host
+                                Prelude.putStrLn "Method: "
+                                DBC.putStrLn methodInput
+                                Prelude.putStrLn "Path: "
+                                DBC.putStrLn path
+                                Prelude.putStrLn "Protocol: "
+                                DBC.putStrLn protocol
+                                Prelude.putStrLn "Body: "
+                                DBC.putStrLn body
+                                -- Creates the response and then prints it
+                                response <- httpLbs (createPostRequest protocol host methodInput path body)
+                                Prelude.putStrLn "--------------------------"
+                                print (getResponseBody response)
+                                loop uri
+                            ("new" : _) -> do
+                                Prelude.putStrLn "Please enter a new URI:"
+                                newUri <- BS.getLine
+                                loop newUri
+                            ("show" : _) -> do
+                                Prelude.putStrLn "Current URI:"
+                                DBC.putStrLn uri
+                                loop uri
+                            ("quit" : _) -> return ()
+                            _ -> Prelude.putStrLn "Parse error!" >> loop uri
+        loop uri
     where handler :: SomeException -> IO ()
           handler ex = Prelude.putStrLn "Invalid URI!" >> main
