@@ -44,6 +44,17 @@
   (major1) == 0 && (major2) == 10 && (minor) <= 12)
 #endif /* MIN_VERSION_bytestring */
 
+/* package fay-0.24.2.0 */
+#ifndef VERSION_fay
+#define VERSION_fay "0.24.2.0"
+#endif /* VERSION_fay */
+#ifndef MIN_VERSION_fay
+#define MIN_VERSION_fay(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  24 || \
+  (major1) == 0 && (major2) == 24 && (minor) <= 2)
+#endif /* MIN_VERSION_fay */
+
 /* package http-conduit-2.3.8 */
 #ifndef VERSION_http_conduit
 #define VERSION_http_conduit "2.3.8"
@@ -132,6 +143,17 @@
   (major1) == 2 && (major2) == 24 && (minor) <= 2)
 #endif /* MIN_TOOL_VERSION_haddock */
 
+/* tool happy-1.20.0 */
+#ifndef TOOL_VERSION_happy
+#define TOOL_VERSION_happy "1.20.0"
+#endif /* TOOL_VERSION_happy */
+#ifndef MIN_TOOL_VERSION_happy
+#define MIN_TOOL_VERSION_happy(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  20 || \
+  (major1) == 1 && (major2) == 20 && (minor) <= 0)
+#endif /* MIN_TOOL_VERSION_happy */
+
 /* tool hpc-0.68 */
 #ifndef TOOL_VERSION_hpc
 #define TOOL_VERSION_hpc "0.68"
@@ -166,7 +188,7 @@
 #endif /* MIN_TOOL_VERSION_runghc */
 
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "simple-haskell-api-0.1.0.0-Kfu6S4HZ5OGBMpkdRhsbF8-simple-haskell-api"
+#define CURRENT_COMPONENT_ID "simple-haskell-api-0.1.0.0-ABB4tPstxLZEcbAUehXb7O-simple-haskell-api"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"

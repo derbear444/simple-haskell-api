@@ -29,12 +29,12 @@ version :: Version
 version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
-bindir     = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/0544e2c6103275d1612cb2b8e10a6d04a8565777724ccf845f24db7308e3489e/8.10.7/bin"
-libdir     = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/0544e2c6103275d1612cb2b8e10a6d04a8565777724ccf845f24db7308e3489e/8.10.7/lib/x86_64-osx-ghc-8.10.7/simple-haskell-api-0.1.0.0-Kfu6S4HZ5OGBMpkdRhsbF8-simple-haskell-api"
-dynlibdir  = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/0544e2c6103275d1612cb2b8e10a6d04a8565777724ccf845f24db7308e3489e/8.10.7/lib/x86_64-osx-ghc-8.10.7"
-datadir    = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/0544e2c6103275d1612cb2b8e10a6d04a8565777724ccf845f24db7308e3489e/8.10.7/share/x86_64-osx-ghc-8.10.7/simple-haskell-api-0.1.0.0"
-libexecdir = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/0544e2c6103275d1612cb2b8e10a6d04a8565777724ccf845f24db7308e3489e/8.10.7/libexec/x86_64-osx-ghc-8.10.7/simple-haskell-api-0.1.0.0"
-sysconfdir = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/0544e2c6103275d1612cb2b8e10a6d04a8565777724ccf845f24db7308e3489e/8.10.7/etc"
+bindir     = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/9cd23998bfec06eb2bc56ea3e19a5f448712312ceddbc5ed67265ae5574bfdeb/8.10.7/bin"
+libdir     = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/9cd23998bfec06eb2bc56ea3e19a5f448712312ceddbc5ed67265ae5574bfdeb/8.10.7/lib/x86_64-osx-ghc-8.10.7/simple-haskell-api-0.1.0.0-ABB4tPstxLZEcbAUehXb7O-simple-haskell-api"
+dynlibdir  = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/9cd23998bfec06eb2bc56ea3e19a5f448712312ceddbc5ed67265ae5574bfdeb/8.10.7/lib/x86_64-osx-ghc-8.10.7"
+datadir    = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/9cd23998bfec06eb2bc56ea3e19a5f448712312ceddbc5ed67265ae5574bfdeb/8.10.7/share/x86_64-osx-ghc-8.10.7/simple-haskell-api-0.1.0.0"
+libexecdir = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/9cd23998bfec06eb2bc56ea3e19a5f448712312ceddbc5ed67265ae5574bfdeb/8.10.7/libexec/x86_64-osx-ghc-8.10.7/simple-haskell-api-0.1.0.0"
+sysconfdir = "/Users/derek/Documents/CS-3490/final/simple-haskell-api/.stack-work/install/x86_64-osx/9cd23998bfec06eb2bc56ea3e19a5f448712312ceddbc5ed67265ae5574bfdeb/8.10.7/etc"
 
 getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath
 getBinDir = catchIO (getEnv "simple_haskell_api_bindir") (\_ -> return bindir)

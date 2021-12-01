@@ -40,7 +40,9 @@ packages:
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
-extra-deps: []
+extra-deps: 
+  - language-ecmascript-0.19.1.0@sha256:2cf08e581980e69fbac5f941c9f6493dc4c3527817c3d395f33f3ffb8ef98253,3833
+  - fay-0.24.2.0@sha256:242206d32cb65a6a209f80b6752f50e05e297120faa1e8e2f4ceecd68ac8fce2,6053
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

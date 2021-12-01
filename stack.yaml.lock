@@ -3,7 +3,21 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: language-ecmascript-0.19.1.0@sha256:2cf08e581980e69fbac5f941c9f6493dc4c3527817c3d395f33f3ffb8ef98253,3833
+    pantry-tree:
+      size: 2454
+      sha256: 5144da4ce52ff5c5783ed6ab22781b588ea88c8bb1a58b9658cc113623565ad4
+  original:
+    hackage: language-ecmascript-0.19.1.0@sha256:2cf08e581980e69fbac5f941c9f6493dc4c3527817c3d395f33f3ffb8ef98253,3833
+- completed:
+    hackage: fay-0.24.2.0@sha256:242206d32cb65a6a209f80b6752f50e05e297120faa1e8e2f4ceecd68ac8fce2,6053
+    pantry-tree:
+      size: 29752
+      sha256: eaebae71b9ee8c097ddf17b9115e8bc7c326d9142a6a3a047f4e39bab1f2caba
+  original:
+    hackage: fay-0.24.2.0@sha256:242206d32cb65a6a209f80b6752f50e05e297120faa1e8e2f4ceecd68ac8fce2,6053
 snapshots:
 - completed:
     size: 586292
