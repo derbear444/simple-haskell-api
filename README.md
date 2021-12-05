@@ -18,3 +18,7 @@ Currently, the program only supports GET and POST requests, but could be extende
 
 - Cabal v. 3.6.2.0
 - GHC v. 8.10.7
+
+## Testing
+
+NOTE: Test files must be run from the root directory, not within the tests directory.

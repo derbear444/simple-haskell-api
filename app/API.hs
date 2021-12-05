@@ -17,14 +17,6 @@ import Data.ByteString.Lazy (fromStrict)
 
 ------
 
-testRequest = setRequestMethod "GET"
-    $ setRequestHost "appallocate-cad69-default-rtdb.firebaseio.com"
-    $ setRequestPath "/users.json?print=pretty"
-    $ setRequestSecure True
-    $ setRequestPort 443
-    $ defaultRequest
-
-
 defaultR = setRequestMethod "GET"
          $ setRequestHost "httpbin.org"
          $ setRequestPath "/get"
@@ -109,7 +101,7 @@ main = do
                     case words commandInput of
                             ("default" : _) -> do
                                 Prelude.putStrLn "Getting default response..."
-                                response <- httpLbs testRequest
+                                response <- httpLbs defaultR
                                 print (getResponseBody response)
                                 loop uri
                             ("get" : _) -> do
