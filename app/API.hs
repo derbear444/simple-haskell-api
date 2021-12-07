@@ -72,7 +72,7 @@ simpleGet :: ByteString -> IO ()
 simpleGet s = do
     response <- httpLbs request
     print (getResponseBody response)
-    where request = setRequestMethod "GET"
+    where request = setRequestMethod "DELETE"
             $ setRequestHost "appallocate-cad69.firebaseapp.com"
             $ setRequestPath s
             $ setRequestSecure True
@@ -125,6 +125,34 @@ main = do
                                 DBC.putStrLn protocol
                                 -- Creates the response and then prints it
                                 response <- httpLbs (createRequest protocol host methodInput path)
+                                Prelude.putStrLn "--------------------------"
+                                print (getResponseBody response)
+                                loop uri
+                            ("delete" : _) -> do
+                                Prelude.putStrLn "Please enter an item to remove:"
+                                removal <- BS.getLine
+                                -- Splits the URI into the protocol, host and path
+                                let parsedProt = splitOn ":" (toString uri)
+                                    protocol = fromString (Prelude.head parsedProt)
+                                    parsedUri = splitOn "/" (Prelude.drop 2 (Prelude.last parsedProt))
+                                    host = fromString (Prelude.head parsedUri)
+                                    path = fromString (flatten (Prelude.tail parsedUri))
+                                    -- Sets the method to "GET"
+                                    methodInput = fromString ("DELETE")
+                                -- Prints the current host, method, and path
+                                Prelude.putStrLn "Attempting to make request with..." -- Should fix up this printing
+                                Prelude.putStrLn "Host: "
+                                DBC.putStrLn host
+                                Prelude.putStrLn "Method: "
+                                DBC.putStrLn methodInput
+                                Prelude.putStrLn "Path: "
+                                DBC.putStrLn path
+                                Prelude.putStrLn "Protocol: "
+                                DBC.putStrLn protocol
+                                Prelude.putStrLn "Item to Remove: "
+                                DBC.putStrLn removal
+                                -- Creates the response and then prints it
+                                response <- httpLbs (createRequest protocol host methodInput (path <> removal))
                                 Prelude.putStrLn "--------------------------"
                                 print (getResponseBody response)
                                 loop uri

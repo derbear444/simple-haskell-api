@@ -1,4 +1,4 @@
-[{
+{
   "id": "1",
   "name": "Test Item 1",
   "date": "12/7/2021",
@@ -6,4 +6,4 @@
   "location": "Anne Belk",
   "description":"This is the description of a test item. This will often probably be long.",
   "tags": ["unimportant", "test"]
-}]
+}
