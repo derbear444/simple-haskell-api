@@ -4,7 +4,7 @@
   "date": "12/7/2021",
   "time": "11:26 AM",
   "location": "Anne Belk",
-  "description":"This is the description of a test item. This will often probably be long.",
+  "description": "This is the description of a test item. This will often probably be long.",
   "tags": ["unimportant", "test"]
 },
 {
@@ -13,7 +13,7 @@
   "date": "12/7/2021",
   "time": "10:11 AM",
   "location": "Anne Belk 202",
-  "description":"This is the description of a test item. This will often probably be longer than the previous one.",
+  "description": "This is the description of another test item. This will often probably be longer than the previous one.",
   "tags": ["unimportant", "test"]
 },
 {
@@ -22,6 +22,6 @@
   "date": "12/7/2021",
   "time": "10:26 AM",
   "location": "Anne Belk 210",
-  "description":"This is the description of a test item. This will often probably be even longer than the last two.",
+  "description": "This is the description of yet another test item. You can see where this is going.",
   "tags": ["unimportant", "test"]
 }]
