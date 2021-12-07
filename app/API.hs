@@ -84,9 +84,12 @@ checkUri s = let uri = toString s
              in 
                  if (protocol == "https" || protocol == "http" || protocol == "quit") then return () else error "No!"
 
+commands :: String
+commands = "List of commands:\ndefault, get, delete, post, new, show, commands, quit"
+
 main :: IO ()
 main = do
-    Prelude.putStrLn "Please enter a valid URI (Ex. https://google.com/path):"
+    Prelude.putStrLn "Please enter a valid URI (Ex. https://dog.ceo/api/breeds/list/all):"
     uri <- BS.getLine
     -- Checks if the uri is quit and immediately stops
     if (toString uri) == "quit" then return ()
@@ -187,6 +190,9 @@ main = do
                             ("show" : _) -> do
                                 Prelude.putStrLn "Current URI:"
                                 DBC.putStrLn uri
+                                loop uri
+                            ("commands" : _) -> do
+                                Prelude.putStrLn commands
                                 loop uri
                             ("quit" : _) -> return ()
                             _ -> Prelude.putStrLn "Parse error!" >> loop uri
