@@ -8,12 +8,12 @@ import Control.Exception
 import Data.Aeson
 import Network.HTTP.Simple
 import Data.ByteString as BS
-import GHC.Generics
-import Data.List.Split -- Might switch out for my own implementation
 -- Used to convert Strings to ByteStrings and vice versa
 import Data.ByteString.UTF8 (fromString, toString)
 import Data.ByteString.Char8 as DBC (putStrLn)
 import Data.ByteString.Lazy (fromStrict)
+import GHC.Generics
+import Data.List.Split -- Might switch out for my own implementation
 
 ------
 
