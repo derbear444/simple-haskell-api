@@ -4,4 +4,4 @@
 #cd ..
 
 # Performs a GET command with the specified URI
-echo "https://appallocate-cad69-default-rtdb.firebaseio.com/haskell.json\n post\n\"test-value 3\"\n quit" | cabal run
+echo "https://appallocate-cad69-default-rtdb.firebaseio.com/haskell.json\n post\n\"test-value 4\"\n quit" | cabal run
